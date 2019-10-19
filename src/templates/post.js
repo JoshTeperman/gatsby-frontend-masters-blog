@@ -4,6 +4,7 @@ import { css } from '@emotion/core';
 import Layout from '../components/layout';
 import ReadLink from '../components/read-link';
 import { MDXRenderer } from 'gatsby-plugin-mdx';
+import Image from 'gatsby-image';
 
 export const query = graphql`
   query($slug: String) {
@@ -11,6 +12,13 @@ export const query = graphql`
       frontmatter {
         title
         author
+        image {
+          sharp: childImageSharp {
+            fluid {
+              ...GatsbyImageSharpFluid_withWebp
+            }
+          }
+        }
       }
       body
     }
@@ -27,6 +35,7 @@ const PostTemplate = ({ data: { mdx: post } }) => (
     >
       Posted by {post.frontmatter.author}
     </p>
+    <Image fluid={post.frontmatter.image.sharp.fluid} />
     <MDXRenderer>{post.body}</MDXRenderer>
     <ReadLink to="/">&larr; Back to all posts</ReadLink>
   </Layout>
