@@ -1,9 +1,9 @@
 import React from 'react';
 import styled from '@emotion/styled';
-import { Link, graphql, staticQuery } from 'gatsby';
+import { Link, graphql, useStaticQuery } from 'gatsby';
+import BackgroundImage from 'gatsby-background-image';
 
-const BackgroundImage = styled.div`
-  background-image: url('static/images/kieren-andrews-melb.jpg');
+const ImageBackground = styled(BackgroundImage)`
   background-size: cover;
   background-position: top 35% center;
   display: flex;
@@ -40,13 +40,25 @@ const TextBox = styled.div`
 `;
 
 const Hero = () => {
+  const { image } = useStaticQuery(graphql`
+    query {
+      image: file(relativePath: { eq: "kieren-andrews-melb.jpg" }) {
+        sharp: childImageSharp {
+          fluid {
+            ...GatsbyImageSharpFluid_withWebp
+          }
+        }
+      }
+    }
+  `);
+
   return (
-    <BackgroundImage>
+    <ImageBackground Tag="section" fluid={image.sharp.fluid} fadeIn="soft">
       <TextBox>
-        <h1>I'm Josh, Developer at Weploy.</h1>
+        <h1>I'm Josh, a Developer at Weploy.</h1>
         <Link to="/about">Learn more about me &rarr;</Link>
       </TextBox>
-    </BackgroundImage>
+    </ImageBackground>
   );
 };
 
