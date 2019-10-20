@@ -32,5 +32,12 @@ module.exports = {
         path: 'images',
       },
     },
+    {
+      resolve: `gatsby-source-instagram`,
+      options: {
+        type: `hashtag`,
+        hashtag: 'catsofinstagram',
+      },
+    },
   ],
 };
